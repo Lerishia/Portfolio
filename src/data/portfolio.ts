@@ -4,6 +4,18 @@ import { basename, extname, join } from "node:path";
 const imageRoot = join(process.cwd(), "public", "Image");
 
 const categoryMeta = {
+  "Marketing Material": {
+    label: "Marketing Material",
+    description: "Flyers, posters, wallpapers, product campaigns, and print-ready marketing collateral."
+  },
+  "Promotional Material": {
+    label: "Promotional Material",
+    description: "Retail and campaign graphics designed to support launches, offers, and seasonal messaging."
+  },
+  "Website design": {
+    label: "Website Design",
+    description: "Landing pages, storefront layouts, and responsive UI explorations across desktop and web flows."
+  },
   Branding: {
     label: "Branding",
     description:
@@ -13,29 +25,13 @@ const categoryMeta = {
     label: "Corporate Material",
     description: "Internal communication pieces, learning material, process visuals, and infographic-led design."
   },
-  Emailer: {
-    label: "Emailer",
-    description: "Promotional email design focused on clarity, hierarchy, and product-led communication."
-  },
-  "Marketing Material": {
-    label: "Marketing Material",
-    description: "Flyers, posters, wallpapers, product campaigns, and print-ready marketing collateral."
-  },
-  "Personal projects": {
-    label: "Personal Projects",
-    description: "Self-initiated creative work, invitations, concept pieces, and experimental illustration projects."
-  },
-  "Promotional Material": {
-    label: "Promotional Material",
-    description: "Retail and campaign graphics designed to support launches, offers, and seasonal messaging."
-  },
   "Social media": {
     label: "Social Media",
     description: "Social banners and posts designed to capture attention quickly while staying brand-consistent."
   },
-  "Website design": {
-    label: "Website Design",
-    description: "Landing pages, storefront layouts, and responsive UI explorations across desktop and web flows."
+  "Personal projects": {
+    label: "Personal Projects",
+    description: "Self-initiated creative work, invitations, concept pieces, and experimental illustration projects."
   }
 } satisfies Record<string, { label: string; description: string }>;
 
@@ -106,14 +102,18 @@ const portfolioItems: PortfolioItem[] = getFiles(imageRoot)
 export const portfolioSections: PortfolioSection[] = Object.entries(categoryMeta)
   .map(([categoryKey, meta]) => {
     const items = portfolioItems.filter((item) => item.categoryKey === categoryKey);
+    const orderedItems =
+      categoryKey === "Website design" && items.length > 1
+        ? [items[0], items.at(-1)!, ...items.slice(1, -1)]
+        : items;
 
     return {
       id: slugify(categoryKey),
       categoryKey,
       label: meta.label,
       description: meta.description,
-      count: items.length,
-      items
+      count: orderedItems.length,
+      items: orderedItems
     };
   })
   .filter((section) => section.count > 0);

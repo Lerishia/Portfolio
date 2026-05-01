@@ -1,185 +1,199 @@
 ---
 import PortfolioGallery from "../components/PortfolioGallery.astro";
 import MainLayout from "../layouts/MainLayout.astro";
-import { featuredGallery, portfolioSections } from "../data/portfolio";
-import { partners, site, specialties } from "../data/site";
+import { portfolioSections } from "../data/portfolio";
+import { site, specialties } from "../data/site";
+
+const videoShowcase = [
+  {
+    title: "Corporate Campaign Video",
+    src: "/Image/Corporate%20Material/Corporate%20campaign%20video.mp4"
+  },
+  {
+    title: "Personal Motion Study 01",
+    src: "/Image/Personal%20projects/20%20-%20Comp%201.mp4"
+  },
+  {
+    title: "Personal Motion Study 02",
+    src: "/Image/Personal%20projects/21%20-%20Comp%201_1.mp4"
+  }
+];
 ---
 
 <MainLayout title={`${site.name} | Portfolio`} description="Portfolio website for Lerishia Naidoo.">
   <main class="py-0">
       <section class="overflow-hidden" id="home">
-        <div class="hero-glow hero-stage relative overflow-hidden px-[5vw] pb-0 pt-5 md:px-[4vw] md:pt-6">
+        <div class="hero-glow hero-stage page-gutter relative overflow-hidden pb-6 pt-5 md:pt-6">
+          <div class="hero-frosted-image absolute inset-0 z-0" style={`background-image: url(${site.profileImage});`}></div>
           <div class="hero-image-fade absolute inset-0"></div>
           <div class="hero-vignette absolute inset-0"></div>
-          <img
-            class="hero-portrait pointer-events-none absolute bottom-0 left-1/2 z-0 h-[78%] w-auto -translate-x-1/2 object-contain md:h-[90%]"
-            src={site.profileImage}
-            alt=""
-          />
 
-          <div class="relative z-10">
-            <header class="mb-10 flex items-center justify-between gap-4 pt-1">
+          <div class="relative z-10 flex min-h-[calc(100vh-3rem)] flex-col">
+            <header class="mb-8 flex items-center justify-between gap-4 pt-1" data-reveal>
               <a class="text-lg font-semibold tracking-tight text-white" href="#home">{site.name}</a>
               <div class="flex items-center gap-2 md:gap-4">
                 <nav class="hidden md:block">
-                  <ul class="menu menu-horizontal gap-1 rounded-full bg-black/10 p-1 text-sm text-white/80 backdrop-blur">
+                  <ul class="menu menu-horizontal gap-1 rounded-full bg-black/10 p-1 text-base text-white/80 backdrop-blur">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#portfolio">Projects</a></li>
                   </ul>
                 </nav>
-                <a class="btn btn-sm rounded-full border border-white/30 bg-white px-5 text-neutral shadow-none hover:bg-white/90" href="#contact">
+                <a class="btn rounded-full border border-white/30 bg-white px-5 text-base text-neutral shadow-none hover:bg-white/90" href="#contact">
                   Get in touch →
                 </a>
               </div>
             </header>
 
-            <div class="grid min-h-[58vh] gap-10 pb-24 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center xl:min-h-[68vh]">
-              <div class="space-y-5">
-                <p class="text-2xl font-semibold text-white/95 md:text-3xl">Hey, I'm a</p>
+            <div class="hero-copy-shell grid min-h-[58vh] flex-1 gap-10 pb-10 pt-8 lg:grid-cols-[1fr] lg:items-center xl:min-h-[66vh]">
+              <div class="space-y-5" data-reveal data-reveal-delay="0.05">
+                <p class="text-2xl font-semibold text-white/95 md:text-3xl">Hey, I'm Lerishia</p>
                 <h1 class="font-display max-w-[7ch] text-6xl font-black leading-[0.9] text-white sm:text-7xl xl:text-[7.2rem]">
-                  Creative
+                  Digital
                   <br />
                   Designer
                 </h1>
               </div>
-
-              <div class="max-w-sm justify-self-start lg:justify-self-end lg:pt-24">
-                <h2 class="text-3xl font-semibold leading-tight text-white md:text-4xl">
-                  Great design should feel invisible.
-                </h2>
-                <p class="mt-4 text-sm leading-7 text-white/72 md:text-base">
-                  From logo to language, I build brands that connect, convert, and stay memorable.
-                </p>
-              </div>
             </div>
+          </div>
 
-            <div class="relative z-10 grid gap-5 border-t border-white/10 py-6 sm:grid-cols-2 xl:grid-cols-4">
+        </div>
+      </section>
+
+      <section class="page-gutter py-14 md:py-18" id="about">
+        <div class="about-panel about-panel-grid" data-reveal>
+          <div class="about-intro">
+            <p class="eyebrow mb-4">About Lerishia</p>
+            <h2 class="font-display about-title">
+              Digital Design With A Growing Focus On Web And UI/UX
+            </h2>
+            <p class="about-summary text-white">
+              I create digital work that balances visual clarity, usability, and strong brand communication.
+            </p>
+          </div>
+
+          <div class="about-copy">
+            <p class="dark-copy text-base leading-8">
+              {site.about}
+            </p>
+            <p class="dark-copy text-base leading-8">
+              I use AI for ideation, exploration, production support, and workflow efficiency while keeping strategy,
+              design thinking, and final creative judgment at the center of the work.
+            </p>
+            <div class="about-tag-row">
               {
                 specialties.map((item) => (
-                  <div class="space-y-1 text-white/88">
-                    <p class="text-sm font-semibold text-accent">#{item.number}</p>
-                    <p class="text-sm md:text-base">{item.title}</p>
-                  </div>
+                  <span class="about-tag">{item.title}</span>
                 ))
               }
             </div>
           </div>
-
-          <div class="hero-brandbar mt-2 grid gap-4 px-[5vw] py-6 text-white/88 md:grid-cols-[0.95fr_3fr] md:px-[4vw]">
-            <p class="max-w-[16ch] text-sm leading-6 text-white/58">Trusted by brands I've helped shape.</p>
-            <div class="grid gap-4 text-sm font-medium sm:grid-cols-2 lg:grid-cols-4">
-              {partners.map((partner) => <div class="hero-brand">{partner}</div>)}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="px-[8vw] py-14 md:py-18" id="about">
-        <div class="grid gap-8 xl:grid-cols-[1.15fr_0.85fr]">
-          <div>
-            <p class="eyebrow mb-4">Behind The Designs</p>
-            <h2 class="font-display max-w-[9ch] text-5xl font-black leading-[0.95] text-white sm:text-6xl xl:text-[5.2rem]">
-              Shaping Experiences That Make Life Simpler
-            </h2>
-          </div>
-
-          <div class="space-y-6">
-            <p class="max-w-xl text-2xl font-semibold leading-tight text-white sm:text-3xl">
-              I’m a digital designer focused on building clean, intuitive visual systems that solve real communication
-              problems.
-            </p>
-            <p class="dark-copy max-w-xl text-base leading-8">
-              {site.about} I currently work as a Mid-level Designer / Developer at The Foschini Group, where I create
-              digital assets, layouts, and responsive design work across multiple platforms.
-            </p>
-            <div class="flex flex-wrap gap-4">
-              <a class="btn btn-primary rounded-full border-none px-7" href="#contact">Get in touch</a>
-              <a
-                class="btn btn-outline rounded-full border-white/14 px-7 text-white hover:border-primary hover:bg-primary hover:text-white"
-                href={site.profileUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                View profile
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-12 grid gap-4 md:grid-cols-3">
-          {
-            featuredGallery.map((item) => (
-              <button
-                type="button"
-                class="group portfolio-shot text-left"
-                data-zoom-image
-                data-image-src={item.src}
-                data-image-title={item.title}
-                data-image-alt={item.alt}
-              >
-                <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
-              </button>
-            ))
-          }
         </div>
       </section>
 
       <PortfolioGallery sections={portfolioSections} />
 
-      <section class="grid gap-8 px-[8vw] py-14 xl:grid-cols-[1fr_0.84fr] md:py-18" id="contact">
-        <div class="py-2">
-          <p class="eyebrow mb-4">What I Do</p>
-          <div class="grid gap-4 md:grid-cols-2">
-            <div class="glass-panel rounded-[1.75rem] p-5">
-              <h3 class="font-display text-2xl font-black uppercase text-white">Brand Identity</h3>
-              <p class="mt-3 text-sm leading-7 text-white/64">
-                Visual systems, logo application, layout language, and campaign consistency across touchpoints.
-              </p>
-            </div>
-            <div class="glass-panel rounded-[1.75rem] p-5">
-              <h3 class="font-display text-2xl font-black uppercase text-white">Web Design</h3>
-              <p class="mt-3 text-sm leading-7 text-white/64">
-                Responsive web visuals and front-end thinking that keep interfaces clean, useful, and engaging.
-              </p>
-            </div>
-            <div class="glass-panel rounded-[1.75rem] p-5">
-              <h3 class="font-display text-2xl font-black uppercase text-white">Campaign Design</h3>
-              <p class="mt-3 text-sm leading-7 text-white/64">
-                Social posts, promo material, flyers, and digital content designed for clarity and attention.
-              </p>
-            </div>
-            <div class="glass-panel rounded-[1.75rem] p-5">
-              <h3 class="font-display text-2xl font-black uppercase text-white">Creative Support</h3>
-              <p class="mt-3 text-sm leading-7 text-white/64">
-                Collaborative design execution with production awareness, accessibility care, and AI-assisted workflows.
-              </p>
+      <section class="page-gutter py-14 md:py-18" id="videos">
+        <div class="space-y-6" data-reveal>
+          <div class="max-w-none">
+            <p class="eyebrow mb-4">Video Work</p>
+            <h2 class="font-display max-w-none text-5xl font-black uppercase leading-[0.95] text-white sm:text-6xl">
+              Motion And Video Highlights
+            </h2>
+            <p class="mt-5 max-w-[56rem] text-base leading-8 text-white/68">
+              A selection of motion pieces, campaign video work, and moving visual content that sits alongside the rest
+              of the portfolio.
+            </p>
+          </div>
+
+          <div class="video-grid">
+            {
+              videoShowcase.map((video) => (
+                <article class="video-card glass-panel" data-reveal>
+                  <video class="video-frame" controls preload="metadata">
+                    <source src={video.src} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                  <div class="video-card-copy">
+                    <p class="video-card-title">{video.title}</p>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+
+          <div class="video-embed-card glass-panel" data-reveal data-reveal-delay="0.12">
+            <div class="video-embed-shell">
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/8YYJyQY_tbE?si=wZDjMu0bOoPIjMrS"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
             </div>
           </div>
         </div>
+      </section>
 
-        <div class="py-2">
-          <p class="eyebrow mb-4">Contact</p>
-          <h2 class="font-display max-w-[8ch] text-5xl font-black uppercase leading-[0.95] text-white sm:text-6xl">
-            Let’s Build Something Meaningful
-          </h2>
-          <p class="mt-5 max-w-xl text-base leading-8 text-white/68">
-            If you need a designer who can work across branding, web visuals, and digital campaign content, I’d love
-            to hear about the project.
-          </p>
+      <section class="page-gutter py-14 md:py-18" id="contact">
+        <div class="contact-section-grid">
+          <div class="about-panel contact-panel-copy" data-reveal>
+            <p class="eyebrow mb-4">Contact Me</p>
+            <h2 class="font-display contact-panel-title">
+              Let’s Build Better Digital Experiences
+            </h2>
+            <p class="contact-panel-summary text-white">
+              If you need support with digital design, web design, UI/UX, or AI-supported creative workflows, I’d love
+              to hear about your project.
+            </p>
 
-          <div class="mt-8 space-y-4">
-            <a class="glass-panel block rounded-[1.5rem] p-5 transition hover:border-primary/40" href={`mailto:${site.email}`}>
-              <p class="text-xs font-bold uppercase tracking-[0.25em] text-primary">Email</p>
-              <p class="mt-2 text-lg font-medium text-white">{site.email}</p>
-            </a>
-            <a class="glass-panel block rounded-[1.5rem] p-5 transition hover:border-primary/40" href={`tel:${site.phone.replace(/\s+/g, "")}`}>
-              <p class="text-xs font-bold uppercase tracking-[0.25em] text-primary">Phone</p>
-              <p class="mt-2 text-lg font-medium text-white">{site.phone}</p>
-            </a>
-            <div class="glass-panel rounded-[1.5rem] p-5">
-              <p class="text-xs font-bold uppercase tracking-[0.25em] text-primary">Location</p>
-              <p class="mt-2 text-lg font-medium text-white">{site.location}</p>
+            <div class="contact-link-stack">
+              <a class="contact-link-card" href={`mailto:${site.email}`}>
+                <p class="text-xs font-bold uppercase tracking-[0.25em] text-primary">Email</p>
+                <p class="mt-2 text-base font-medium text-white">{site.email}</p>
+              </a>
+              <a class="contact-link-card" href={`tel:${site.phone.replace(/\s+/g, "")}`}>
+                <p class="text-xs font-bold uppercase tracking-[0.25em] text-primary">Phone</p>
+                <p class="mt-2 text-base font-medium text-white">{site.phone}</p>
+              </a>
+              <a class="contact-link-card" href="/files/Lerishia-Naidoo-CV.pdf" download>
+                <p class="text-xs font-bold uppercase tracking-[0.25em] text-primary">Download CV</p>
+                <p class="mt-2 text-base font-medium text-white">Lerishia Naidoo CV.pdf</p>
+              </a>
+            </div>
+          </div>
+
+          <div class="about-panel contact-panel-services" data-reveal data-reveal-delay="0.12">
+            <p class="eyebrow mb-4">What I Do</p>
+            <div class="contact-service-grid">
+              <article class="contact-service-card">
+                <h3 class="font-display text-2xl font-black uppercase text-white">Digital Design</h3>
+                <p class="mt-3 text-base leading-7 text-white/72">
+                  Brand-led campaign visuals, polished layouts, and digital assets built for clarity and consistency.
+                </p>
+              </article>
+              <article class="contact-service-card">
+                <h3 class="font-display text-2xl font-black uppercase text-white">Web Design</h3>
+                <p class="mt-3 text-base leading-7 text-white/72">
+                  Responsive web design shaped by structure, usability, and strong visual storytelling.
+                </p>
+              </article>
+              <article class="contact-service-card">
+                <h3 class="font-display text-2xl font-black uppercase text-white">UI/UX Design</h3>
+                <p class="mt-3 text-base leading-7 text-white/72">
+                  Interface thinking, user journeys, and digital systems that make experiences easier to use.
+                </p>
+              </article>
+              <article class="contact-service-card">
+                <h3 class="font-display text-2xl font-black uppercase text-white">AI Assisted Workflows</h3>
+                <p class="mt-3 text-base leading-7 text-white/72">
+                  AI-supported ideation and production workflows used thoughtfully to improve speed and exploration.
+                </p>
+              </article>
             </div>
           </div>
         </div>

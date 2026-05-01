@@ -8,45 +8,61 @@ interface Props {
 const { sections } = Astro.props;
 ---
 
-<section class="px-[8vw] py-14 md:py-18" id="portfolio">
-  <div class="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
-    <div class="max-w-3xl">
+<section class="page-gutter py-14 md:py-18" id="portfolio">
+  <div class="space-y-6" data-reveal>
+    <div class="max-w-none">
       <p class="eyebrow mb-4">Portfolio Archive</p>
-      <h2 class="font-display max-w-[10ch] text-5xl font-black uppercase leading-[0.95] text-white sm:text-6xl">
+      <h2 class="font-display max-w-none text-5xl font-black uppercase leading-[0.95] text-white sm:text-6xl">
         All My Work, Organised By Category
       </h2>
-      <p class="mt-5 max-w-2xl text-base leading-8 text-white/68">
+      <p class="mt-5 max-w-none text-base leading-8 text-white/68">
         Browse every piece by category without stretching the page into one long wall of images. Each collection
         scrolls sideways, and every image opens into a focused full-screen preview.
       </p>
     </div>
 
-    <div class="flex flex-wrap gap-3">
-      {
-        sections.map((section) => (
-          <a class="category-pill" href={`#${section.id}`}>
-            <span>{section.label}</span>
-            <span class="category-pill-count">{section.count}</span>
-          </a>
-        ))
-      }
+    <div class="portfolio-tab-shell">
+      <div class="portfolio-filter-row" role="tablist" aria-label="Portfolio categories">
+        {
+          sections.map((section, index) => (
+            <button
+              type="button"
+              class="category-pill"
+              role="tab"
+              aria-selected={index === 0 ? "true" : "false"}
+              data-category-tab
+              data-category-target={section.id}
+            >
+              <span>{section.label}</span>
+              <span class="category-pill-count">{section.count}</span>
+            </button>
+          ))
+        }
+      </div>
     </div>
   </div>
 
-  <div class="mt-12 space-y-8">
+  <div class="portfolio-panel-stack space-y-8">
     {
-      sections.map((section) => (
-        <article class="portfolio-category glass-panel rounded-[2rem] p-5 md:p-6" id={section.id}>
-          <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-            <div class="max-w-2xl">
-              <div class="flex flex-wrap items-center gap-3">
+      sections.map((section, index) => (
+        <article
+          class={`portfolio-category glass-panel p-5 md:p-6 ${index === 0 ? "portfolio-category-active" : "hidden"}`}
+          id={section.id}
+          data-reveal
+          data-category-id={section.id}
+          data-category-panel
+        >
+          <div class="portfolio-feature-head">
+            <div class="portfolio-feature-copy">
+              <p class="eyebrow portfolio-feature-kicker">Selected Category</p>
+              <div class="portfolio-feature-title-row">
                 <h3 class="font-display text-3xl font-black uppercase text-white md:text-4xl">{section.label}</h3>
                 <span class="count-badge">{section.count} pieces</span>
               </div>
-              <p class="mt-3 text-sm leading-7 text-white/62 md:text-base">{section.description}</p>
+              <p class="portfolio-feature-description">{section.description}</p>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="portfolio-feature-controls">
               <button type="button" class="carousel-control" data-carousel-prev aria-label={`Scroll ${section.label} left`}>
                 <span aria-hidden="true">←</span>
               </button>
@@ -56,7 +72,7 @@ const { sections } = Astro.props;
             </div>
           </div>
 
-          <div class="portfolio-carousel mt-6" data-carousel>
+          <div class="portfolio-carousel" data-carousel>
             <div class="portfolio-track" data-carousel-track>
               {
                 section.items.map((item) => (
@@ -65,15 +81,11 @@ const { sections } = Astro.props;
                     class="portfolio-card group"
                     data-zoom-image
                     data-image-src={item.src}
-                    data-image-title={item.title}
+                    data-image-title={section.label}
                     data-image-alt={item.alt}
                   >
                     <span class="portfolio-card-media">
                       <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
-                    </span>
-                    <span class="portfolio-card-copy">
-                      <span class="portfolio-card-kicker">{section.label}</span>
-                      <span class="portfolio-card-title">{item.title}</span>
                     </span>
                   </button>
                 ))
@@ -87,12 +99,12 @@ const { sections } = Astro.props;
 </section>
 
 <div class="portfolio-modal hidden" data-portfolio-modal>
-  <div class="portfolio-modal-shell">
-    <button type="button" class="portfolio-modal-close" data-close-modal aria-label="Close enlarged image">×</button>
-    <img class="portfolio-modal-image" src="" alt="" data-modal-image />
-    <div class="portfolio-modal-caption">
-      <p class="portfolio-modal-label">Portfolio Preview</p>
-      <p class="portfolio-modal-title" data-modal-title></p>
+  <button type="button" class="portfolio-modal-nav portfolio-modal-nav-left" data-modal-prev aria-label="Show previous image">←</button>
+  <button type="button" class="portfolio-modal-nav portfolio-modal-nav-right" data-modal-next aria-label="Show next image">→</button>
+  <button type="button" class="portfolio-modal-close" data-close-modal aria-label="Close enlarged image">×</button>
+  <div class="portfolio-modal-shell" data-modal-shell>
+    <div class="portfolio-modal-media" data-modal-media>
+      <img class="portfolio-modal-image" src="" alt="" data-modal-image />
     </div>
   </div>
 </div>
@@ -101,6 +113,35 @@ const { sections } = Astro.props;
   const initializePortfolio = () => {
     if (document.body.dataset.portfolioInitialized === "true") return;
     document.body.dataset.portfolioInitialized = "true";
+
+    const categoryTabs = Array.from(document.querySelectorAll("[data-category-tab]"));
+    const categoryPanels = Array.from(document.querySelectorAll("[data-category-panel]"));
+
+    const setActiveCategory = (targetId) => {
+      categoryTabs.forEach((tab) => {
+        if (!(tab instanceof HTMLButtonElement)) return;
+        const isActive = tab.dataset.categoryTarget === targetId;
+        tab.setAttribute("aria-selected", isActive ? "true" : "false");
+        tab.dataset.active = isActive ? "true" : "false";
+      });
+
+      categoryPanels.forEach((panel) => {
+        if (!(panel instanceof HTMLElement)) return;
+        const isActive = panel.dataset.categoryId === targetId;
+        if (isActive && panel.dataset.viewed !== "true") {
+          panel.classList.add("is-visible");
+          panel.dataset.viewed = "true";
+        }
+        panel.classList.toggle("portfolio-category-active", isActive);
+        panel.classList.toggle("hidden", !isActive);
+      });
+    };
+
+    categoryTabs.forEach((tab) => {
+      if (!(tab instanceof HTMLButtonElement)) return;
+      tab.dataset.active = tab.getAttribute("aria-selected") === "true" ? "true" : "false";
+      tab.addEventListener("click", () => setActiveCategory(tab.dataset.categoryTarget || ""));
+    });
 
     const carousels = document.querySelectorAll("[data-carousel]");
 
@@ -132,16 +173,60 @@ const { sections } = Astro.props;
       syncControls();
     });
 
+    categoryPanels.forEach((panel) => {
+      if (!(panel instanceof HTMLElement)) return;
+      if (!panel.classList.contains("hidden")) {
+        panel.dataset.viewed = "true";
+      }
+    });
+
     const modal = document.querySelector("[data-portfolio-modal]");
+    const modalShell = modal?.querySelector("[data-modal-shell]");
+    const modalMedia = modal?.querySelector("[data-modal-media]");
     const modalImage = modal?.querySelector("[data-modal-image]");
-    const modalTitle = modal?.querySelector("[data-modal-title]");
+    const modalPreviousButton = modal?.querySelector("[data-modal-prev]");
+    const modalNextButton = modal?.querySelector("[data-modal-next]");
+    let activeItems = [];
+    let activeIndex = -1;
+
+    const renderModalItem = () => {
+      if (!modal || !modalImage || activeIndex < 0 || !activeItems.length) return;
+      const activeButton = activeItems[activeIndex];
+      if (!(activeButton instanceof HTMLElement)) return;
+
+      modalImage.setAttribute("src", activeButton.dataset.imageSrc || "");
+      modalImage.setAttribute("alt", activeButton.dataset.imageAlt || activeButton.dataset.imageTitle || "Portfolio image");
+      if (modalMedia instanceof HTMLElement) {
+        modalMedia.scrollTop = 0;
+        modalMedia.scrollLeft = 0;
+      }
+
+      if (modalPreviousButton instanceof HTMLButtonElement) {
+        modalPreviousButton.disabled = activeIndex === 0;
+      }
+
+      if (modalNextButton instanceof HTMLButtonElement) {
+        modalNextButton.disabled = activeIndex === activeItems.length - 1;
+      }
+    };
 
     const closeModal = () => {
       if (!modal || !modalImage) return;
       modal.classList.add("hidden");
+      modalShell?.classList.remove("portfolio-modal-shell-wide");
       modalImage.setAttribute("src", "");
       modalImage.setAttribute("alt", "");
+      activeItems = [];
+      activeIndex = -1;
       document.body.style.overflow = "";
+    };
+
+    const moveModal = (direction) => {
+      if (!activeItems.length) return;
+      const nextIndex = activeIndex + direction;
+      if (nextIndex < 0 || nextIndex >= activeItems.length) return;
+      activeIndex = nextIndex;
+      renderModalItem();
     };
 
     document.addEventListener("click", (event) => {
@@ -150,22 +235,31 @@ const { sections } = Astro.props;
 
       const zoomButton = target.closest("[data-zoom-image]");
       if (zoomButton instanceof HTMLElement) {
-        if (!modal || !modalImage || !modalTitle) return;
-
-        modalImage.setAttribute("src", zoomButton.dataset.imageSrc || "");
-        modalImage.setAttribute("alt", zoomButton.dataset.imageAlt || zoomButton.dataset.imageTitle || "Portfolio image");
-        modalTitle.textContent = zoomButton.dataset.imageTitle || "Portfolio image";
+        if (!modal || !modalImage) return;
+        const category = zoomButton.closest(".portfolio-category");
+        const isWideGallery = category instanceof HTMLElement && category.dataset.categoryId === "website-design";
+        activeItems = Array.from(category?.querySelectorAll("[data-zoom-image]") || []);
+        activeIndex = activeItems.indexOf(zoomButton);
+        if (isWideGallery) {
+          modalShell?.classList.add("portfolio-modal-shell-wide");
+        } else {
+          modalShell?.classList.remove("portfolio-modal-shell-wide");
+        }
+        renderModalItem();
         modal.classList.remove("hidden");
         document.body.style.overflow = "hidden";
         return;
       }
-
-      if (target === modal || target.closest("[data-close-modal]")) closeModal();
+      if (target.closest("[data-close-modal]")) closeModal();
     });
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closeModal();
+      if (event.key === "ArrowLeft") moveModal(-1);
+      if (event.key === "ArrowRight") moveModal(1);
     });
+
+    modalPreviousButton?.addEventListener("click", () => moveModal(-1));
+    modalNextButton?.addEventListener("click", () => moveModal(1));
   };
 
   initializePortfolio();
