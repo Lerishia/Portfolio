@@ -1,0 +1,188 @@
+---
+import PortfolioGallery from "../components/PortfolioGallery.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+import { featuredGallery, portfolioSections } from "../data/portfolio";
+import { partners, site, specialties } from "../data/site";
+---
+
+<MainLayout title={`${site.name} | Portfolio`} description="Portfolio website for Lerishia Naidoo.">
+  <main class="py-0">
+      <section class="overflow-hidden" id="home">
+        <div class="hero-glow hero-stage relative overflow-hidden px-[5vw] pb-0 pt-5 md:px-[4vw] md:pt-6">
+          <div class="hero-image-fade absolute inset-0"></div>
+          <div class="hero-vignette absolute inset-0"></div>
+          <img
+            class="hero-portrait pointer-events-none absolute bottom-0 left-1/2 z-0 h-[78%] w-auto -translate-x-1/2 object-contain md:h-[90%]"
+            src={site.profileImage}
+            alt=""
+          />
+
+          <div class="relative z-10">
+            <header class="mb-10 flex items-center justify-between gap-4 pt-1">
+              <a class="text-lg font-semibold tracking-tight text-white" href="#home">{site.name}</a>
+              <div class="flex items-center gap-2 md:gap-4">
+                <nav class="hidden md:block">
+                  <ul class="menu menu-horizontal gap-1 rounded-full bg-black/10 p-1 text-sm text-white/80 backdrop-blur">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#portfolio">Projects</a></li>
+                  </ul>
+                </nav>
+                <a class="btn btn-sm rounded-full border border-white/30 bg-white px-5 text-neutral shadow-none hover:bg-white/90" href="#contact">
+                  Get in touch →
+                </a>
+              </div>
+            </header>
+
+            <div class="grid min-h-[58vh] gap-10 pb-24 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center xl:min-h-[68vh]">
+              <div class="space-y-5">
+                <p class="text-2xl font-semibold text-white/95 md:text-3xl">Hey, I'm a</p>
+                <h1 class="font-display max-w-[7ch] text-6xl font-black leading-[0.9] text-white sm:text-7xl xl:text-[7.2rem]">
+                  Creative
+                  <br />
+                  Designer
+                </h1>
+              </div>
+
+              <div class="max-w-sm justify-self-start lg:justify-self-end lg:pt-24">
+                <h2 class="text-3xl font-semibold leading-tight text-white md:text-4xl">
+                  Great design should feel invisible.
+                </h2>
+                <p class="mt-4 text-sm leading-7 text-white/72 md:text-base">
+                  From logo to language, I build brands that connect, convert, and stay memorable.
+                </p>
+              </div>
+            </div>
+
+            <div class="relative z-10 grid gap-5 border-t border-white/10 py-6 sm:grid-cols-2 xl:grid-cols-4">
+              {
+                specialties.map((item) => (
+                  <div class="space-y-1 text-white/88">
+                    <p class="text-sm font-semibold text-accent">#{item.number}</p>
+                    <p class="text-sm md:text-base">{item.title}</p>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="hero-brandbar mt-2 grid gap-4 px-[5vw] py-6 text-white/88 md:grid-cols-[0.95fr_3fr] md:px-[4vw]">
+            <p class="max-w-[16ch] text-sm leading-6 text-white/58">Trusted by brands I've helped shape.</p>
+            <div class="grid gap-4 text-sm font-medium sm:grid-cols-2 lg:grid-cols-4">
+              {partners.map((partner) => <div class="hero-brand">{partner}</div>)}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-[8vw] py-14 md:py-18" id="about">
+        <div class="grid gap-8 xl:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <p class="eyebrow mb-4">Behind The Designs</p>
+            <h2 class="font-display max-w-[9ch] text-5xl font-black leading-[0.95] text-white sm:text-6xl xl:text-[5.2rem]">
+              Shaping Experiences That Make Life Simpler
+            </h2>
+          </div>
+
+          <div class="space-y-6">
+            <p class="max-w-xl text-2xl font-semibold leading-tight text-white sm:text-3xl">
+              I’m a digital designer focused on building clean, intuitive visual systems that solve real communication
+              problems.
+            </p>
+            <p class="dark-copy max-w-xl text-base leading-8">
+              {site.about} I currently work as a Mid-level Designer / Developer at The Foschini Group, where I create
+              digital assets, layouts, and responsive design work across multiple platforms.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <a class="btn btn-primary rounded-full border-none px-7" href="#contact">Get in touch</a>
+              <a
+                class="btn btn-outline rounded-full border-white/14 px-7 text-white hover:border-primary hover:bg-primary hover:text-white"
+                href={site.profileUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View profile
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 grid gap-4 md:grid-cols-3">
+          {
+            featuredGallery.map((item) => (
+              <button
+                type="button"
+                class="group portfolio-shot text-left"
+                data-zoom-image
+                data-image-src={item.src}
+                data-image-title={item.title}
+                data-image-alt={item.alt}
+              >
+                <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
+              </button>
+            ))
+          }
+        </div>
+      </section>
+
+      <PortfolioGallery sections={portfolioSections} />
+
+      <section class="grid gap-8 px-[8vw] py-14 xl:grid-cols-[1fr_0.84fr] md:py-18" id="contact">
+        <div class="py-2">
+          <p class="eyebrow mb-4">What I Do</p>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div class="glass-panel rounded-[1.75rem] p-5">
+              <h3 class="font-display text-2xl font-black uppercase text-white">Brand Identity</h3>
+              <p class="mt-3 text-sm leading-7 text-white/64">
+                Visual systems, logo application, layout language, and campaign consistency across touchpoints.
+              </p>
+            </div>
+            <div class="glass-panel rounded-[1.75rem] p-5">
+              <h3 class="font-display text-2xl font-black uppercase text-white">Web Design</h3>
+              <p class="mt-3 text-sm leading-7 text-white/64">
+                Responsive web visuals and front-end thinking that keep interfaces clean, useful, and engaging.
+              </p>
+            </div>
+            <div class="glass-panel rounded-[1.75rem] p-5">
+              <h3 class="font-display text-2xl font-black uppercase text-white">Campaign Design</h3>
+              <p class="mt-3 text-sm leading-7 text-white/64">
+                Social posts, promo material, flyers, and digital content designed for clarity and attention.
+              </p>
+            </div>
+            <div class="glass-panel rounded-[1.75rem] p-5">
+              <h3 class="font-display text-2xl font-black uppercase text-white">Creative Support</h3>
+              <p class="mt-3 text-sm leading-7 text-white/64">
+                Collaborative design execution with production awareness, accessibility care, and AI-assisted workflows.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2">
+          <p class="eyebrow mb-4">Contact</p>
+          <h2 class="font-display max-w-[8ch] text-5xl font-black uppercase leading-[0.95] text-white sm:text-6xl">
+            Let’s Build Something Meaningful
+          </h2>
+          <p class="mt-5 max-w-xl text-base leading-8 text-white/68">
+            If you need a designer who can work across branding, web visuals, and digital campaign content, I’d love
+            to hear about the project.
+          </p>
+
+          <div class="mt-8 space-y-4">
+            <a class="glass-panel block rounded-[1.5rem] p-5 transition hover:border-primary/40" href={`mailto:${site.email}`}>
+              <p class="text-xs font-bold uppercase tracking-[0.25em] text-primary">Email</p>
+              <p class="mt-2 text-lg font-medium text-white">{site.email}</p>
+            </a>
+            <a class="glass-panel block rounded-[1.5rem] p-5 transition hover:border-primary/40" href={`tel:${site.phone.replace(/\s+/g, "")}`}>
+              <p class="text-xs font-bold uppercase tracking-[0.25em] text-primary">Phone</p>
+              <p class="mt-2 text-lg font-medium text-white">{site.phone}</p>
+            </a>
+            <div class="glass-panel rounded-[1.5rem] p-5">
+              <p class="text-xs font-bold uppercase tracking-[0.25em] text-primary">Location</p>
+              <p class="mt-2 text-lg font-medium text-white">{site.location}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+  </main>
+</MainLayout>

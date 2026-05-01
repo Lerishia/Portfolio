@@ -1,0 +1,220 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: false;
+}
+
+@plugin "daisyui/theme" {
+  name: "lerishia";
+  default: true;
+  prefersdark: false;
+  color-scheme: dark;
+
+  --color-base-100: #0d0d0d;
+  --color-base-200: #141414;
+  --color-base-300: #202020;
+  --color-base-content: #fff7ef;
+  --color-primary: #ff6a21;
+  --color-primary-content: #fff7ef;
+  --color-secondary: #ff8d32;
+  --color-secondary-content: #2c1106;
+  --color-accent: #ffb36b;
+  --color-accent-content: #2c1106;
+  --color-neutral: #1b0e0a;
+  --color-neutral-content: #fff7ef;
+  --color-info: #f18b56;
+  --color-info-content: #2c1106;
+  --color-success: #ffb36b;
+  --color-success-content: #2c1106;
+  --color-warning: #ffd394;
+  --color-warning-content: #2c1106;
+  --color-error: #ff6b57;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 1rem;
+  --radius-field: 0.9rem;
+  --radius-box: 1.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-width: 320px;
+    color: var(--color-base-content);
+    font-family: "Avenir Next", "Segoe UI", sans-serif;
+    background: #090909;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: "Arial Black", "Avenir Next Condensed", "Helvetica Neue", sans-serif;
+  }
+
+  .section-shell {
+    @apply rounded-[2.25rem] border border-white/6 bg-base-100 shadow-[0_26px_90px_rgba(0,0,0,0.38)];
+  }
+
+  .glass-panel {
+    @apply border border-white/8 bg-white/4 shadow-[0_16px_50px_rgba(0,0,0,0.24)] backdrop-blur;
+  }
+
+  .eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.28em] text-primary;
+  }
+
+  .portfolio-shot {
+    @apply aspect-[4/5] overflow-hidden rounded-[1.7rem] border border-white/8 bg-[#141414];
+  }
+
+  .portfolio-shot img {
+    @apply h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.03];
+  }
+
+  .category-pill {
+    @apply inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/4 px-4 py-2 text-sm font-medium text-white/78 transition hover:border-primary/40 hover:bg-white/8 hover:text-white;
+  }
+
+  .category-pill-count {
+    @apply rounded-full bg-white/10 px-2 py-1 text-xs text-white/70;
+  }
+
+  .count-badge {
+    @apply rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-primary;
+  }
+
+  .portfolio-carousel {
+    @apply relative;
+  }
+
+  .portfolio-track {
+    @apply flex gap-4 overflow-x-auto pb-2;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  }
+
+  .portfolio-track::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  .portfolio-track::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .portfolio-track::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+  }
+
+  .portfolio-card {
+    @apply relative flex w-[78vw] max-w-[320px] shrink-0 flex-col overflow-hidden rounded-[1.65rem] border border-white/8 bg-[#121212] text-left transition duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_20px_50px_rgba(0,0,0,0.34)] sm:w-[300px];
+    scroll-snap-align: start;
+  }
+
+  .portfolio-card-media {
+    @apply aspect-[4/5] overflow-hidden;
+  }
+
+  .portfolio-card-media img {
+    @apply h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.04];
+  }
+
+  .portfolio-card-copy {
+    @apply flex flex-col gap-2 border-t border-white/8 px-4 py-4;
+  }
+
+  .portfolio-card-kicker {
+    @apply text-[0.68rem] font-bold uppercase tracking-[0.22em] text-primary;
+  }
+
+  .portfolio-card-title {
+    @apply text-sm font-medium leading-6 text-white/82;
+  }
+
+  .carousel-control {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/6 text-lg text-white transition hover:border-primary/40 hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-white/10 disabled:hover:bg-white/6 disabled:hover:text-white;
+  }
+
+  .portfolio-modal {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/86 px-4 py-6 backdrop-blur-sm;
+  }
+
+  .portfolio-modal-shell {
+    @apply relative flex max-h-[92vh] w-full max-w-5xl flex-col items-center gap-4;
+  }
+
+  .portfolio-modal-close {
+    @apply absolute right-0 top-0 z-10 inline-flex h-11 w-11 -translate-y-3 translate-x-1 items-center justify-center rounded-full border border-white/15 bg-black/60 text-3xl leading-none text-white transition hover:border-primary/40 hover:text-primary;
+  }
+
+  .portfolio-modal-image {
+    @apply max-h-[78vh] w-auto max-w-full rounded-[1.6rem] border border-white/8 bg-[#120c0a] object-contain shadow-[0_24px_80px_rgba(0,0,0,0.55)];
+  }
+
+  .portfolio-modal-caption {
+    @apply w-full rounded-[1.25rem] border border-white/8 bg-white/6 px-5 py-4 text-center backdrop-blur;
+  }
+
+  .portfolio-modal-label {
+    @apply text-[0.68rem] font-bold uppercase tracking-[0.24em] text-primary;
+  }
+
+  .portfolio-modal-title {
+    @apply mt-2 text-sm font-medium text-white/84 sm:text-base;
+  }
+
+  .hero-glow {
+    background:
+      radial-gradient(circle at 18% 24%, rgba(255, 214, 124, 0.42), transparent 18%),
+      radial-gradient(circle at 68% 14%, rgba(121, 7, 26, 0.24), transparent 18%),
+      linear-gradient(120deg, #ff6c25 0%, #f44b1f 33%, #a11228 72%, #341018 100%);
+  }
+
+  .hero-stage {
+    @apply rounded-b-[3rem] border-b border-white/8;
+    min-height: 88vh;
+  }
+
+  .hero-vignette {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.18) 48%, rgba(0, 0, 0, 0.32) 100%),
+      radial-gradient(circle at 50% 72%, rgba(0, 0, 0, 0.48), transparent 30%);
+  }
+
+  .hero-portrait {
+    filter: grayscale(1) contrast(1.35) brightness(0.35);
+    mix-blend-mode: multiply;
+    opacity: 0.98;
+  }
+
+  .hero-brandbar {
+    @apply rounded-t-[2rem] border border-white/8 bg-[#0d0d0d] shadow-[0_-14px_34px_rgba(0,0,0,0.22)];
+  }
+
+  .hero-brand {
+    @apply rounded-full border border-white/8 bg-white/3 px-4 py-3 text-white/82;
+  }
+
+  .hero-image-fade {
+    background:
+      linear-gradient(90deg, rgba(255, 88, 31, 0.18) 0%, rgba(255, 88, 31, 0.02) 34%, rgba(0, 0, 0, 0) 50%),
+      linear-gradient(180deg, rgba(13, 13, 13, 0) 0%, rgba(13, 13, 13, 0.38) 100%);
+  }
+
+  .dark-copy {
+    @apply text-base-content/72;
+  }
+}
