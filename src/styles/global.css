@@ -273,6 +273,13 @@
     @apply space-y-4;
   }
 
+  .mobile-portfolio-note {
+    @apply mb-4 rounded-[1.5rem] border border-primary/20 px-4 py-3 text-sm font-semibold leading-6 text-white shadow-[0_20px_50px_rgba(0,0,0,0.22),0_0_20px_rgba(77,182,255,0.14)] backdrop-blur;
+    background:
+      linear-gradient(135deg, rgba(77, 182, 255, 0.18), rgba(77, 182, 255, 0.07) 45%, rgba(9, 20, 35, 0.52)),
+      rgba(255, 255, 255, 0.04);
+  }
+
   .mobile-accordion-item {
     @apply overflow-hidden rounded-[1.7rem];
   }

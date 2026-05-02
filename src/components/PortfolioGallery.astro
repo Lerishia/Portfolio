@@ -96,6 +96,10 @@ const { sections } = Astro.props;
     }
   </div>
 
+  <div class="mobile-portfolio-note glass-panel md:hidden">
+    <p>Swipe right to explore more work in each category, then tap any image to open it full size.</p>
+  </div>
+
   <div class="mobile-portfolio-accordion space-y-4 md:hidden">
     {
       sections.map((section, index) => (
