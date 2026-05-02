@@ -21,7 +21,28 @@ const videoShowcase = [
 ---
 
 <MainLayout title={`${site.name} | Portfolio`} description="Portfolio website for Lerishia Naidoo.">
-  <main class="py-0">
+  <div class="site-nav-wrap">
+    <header class="site-nav" data-reveal>
+      <div class="site-nav-shell">
+        <a class="site-nav-brand" href="#home">{site.name}</a>
+        <div class="site-nav-links">
+          <nav>
+            <ul class="menu menu-horizontal site-nav-menu">
+              <li><a href="#home">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#portfolio">Projects</a></li>
+              <li><a href="#videos">Video</a></li>
+            </ul>
+          </nav>
+          <a class="btn site-nav-cta" href="#contact">
+            Get in touch →
+          </a>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <main class="site-main py-0">
       <section class="overflow-hidden" id="home">
         <div class="hero-glow hero-stage page-gutter relative overflow-hidden pb-6 pt-5 md:pt-6">
           <div class="hero-frosted-image absolute inset-0 z-0" style={`background-image: url(${site.profileImage});`}></div>
@@ -29,23 +50,7 @@ const videoShowcase = [
           <div class="hero-vignette absolute inset-0"></div>
 
           <div class="relative z-10 flex min-h-[calc(100vh-3rem)] flex-col">
-            <header class="mb-8 flex items-center justify-between gap-4 pt-1" data-reveal>
-              <a class="text-lg font-semibold tracking-tight text-white" href="#home">{site.name}</a>
-              <div class="flex items-center gap-2 md:gap-4">
-                <nav class="hidden md:block">
-                  <ul class="menu menu-horizontal gap-1 rounded-full bg-black/10 p-1 text-base text-white/80 backdrop-blur">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#portfolio">Projects</a></li>
-                  </ul>
-                </nav>
-                <a class="btn rounded-full border border-white/30 bg-white px-5 text-base text-neutral shadow-none hover:bg-white/90" href="#contact">
-                  Get in touch →
-                </a>
-              </div>
-            </header>
-
-            <div class="hero-copy-shell grid min-h-[58vh] flex-1 gap-10 pb-10 pt-8 lg:grid-cols-[1fr] lg:items-center xl:min-h-[66vh]">
+            <div class="hero-copy-shell grid min-h-[58vh] flex-1 gap-10 pb-10 pt-28 md:pt-32 lg:grid-cols-[1fr] lg:items-center xl:min-h-[66vh]">
               <div class="space-y-5" data-reveal data-reveal-delay="0.05">
                 <p class="text-2xl font-semibold text-white/95 md:text-3xl">Hey, I'm Lerishia</p>
                 <h1 class="font-display max-w-[7ch] text-6xl font-black leading-[0.9] text-white sm:text-7xl xl:text-[7.2rem]">
