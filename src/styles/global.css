@@ -114,16 +114,32 @@
     @apply text-lg font-semibold tracking-tight text-white;
   }
 
+  .site-nav-header {
+    @apply flex items-center justify-between gap-4 md:contents;
+  }
+
+  .site-nav-toggle {
+    @apply inline-flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-full border border-white/14 bg-white/6 text-white transition hover:bg-white/10 md:hidden;
+  }
+
+  .site-nav-toggle-line {
+    @apply block h-[2px] w-5 rounded-full bg-current;
+  }
+
   .site-nav-links {
-    @apply flex flex-col gap-3 md:flex-row md:items-center md:gap-4;
+    @apply hidden flex-col gap-3 md:flex md:flex-row md:items-center md:gap-4;
+  }
+
+  .site-nav-links.site-nav-links-open {
+    @apply flex;
   }
 
   .site-nav-menu {
-    @apply flex-wrap items-center gap-1 rounded-full bg-white/8 p-1 text-sm text-white/82;
+    @apply flex-col items-stretch gap-1 rounded-[1.2rem] bg-white/8 p-1 text-sm text-white/82 md:flex-row md:flex-wrap md:items-center md:rounded-full;
   }
 
   .site-nav-menu li a {
-    @apply inline-flex items-center rounded-full px-4 py-[0.7rem] leading-none transition hover:bg-white/10 hover:text-white;
+    @apply inline-flex items-center rounded-full px-4 py-[0.7rem] leading-none transition hover:bg-white/10 hover:text-white md:justify-center;
   }
 
   .site-nav-cta {
@@ -206,8 +222,20 @@
     min-height: 100%;
   }
 
+  .hero-content {
+    min-height: calc(100vh - 3rem);
+  }
+
   .hero-copy-shell {
     width: min(100%, 78rem);
+    min-height: 58vh;
+    gap: 2.5rem;
+    padding-top: 8rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .hero-title {
+    text-wrap: balance;
   }
 
   .eyebrow {
@@ -238,6 +266,55 @@
 
   .portfolio-tab-shell {
     @apply relative z-20 mb-[-1px] overflow-visible;
+  }
+
+  .mobile-portfolio-accordion,
+  .mobile-video-accordion {
+    @apply space-y-4;
+  }
+
+  .mobile-accordion-item {
+    @apply overflow-hidden rounded-[1.7rem];
+  }
+
+  .mobile-accordion-trigger {
+    @apply flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-white transition hover:bg-white/5;
+  }
+
+  .mobile-accordion-trigger[data-active="true"],
+  .mobile-accordion-trigger[aria-expanded="true"] {
+    @apply bg-white/6;
+  }
+
+  .mobile-accordion-icon {
+    @apply relative inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/6 text-white/82 transition;
+  }
+
+  .mobile-accordion-icon-line {
+    @apply absolute left-1/2 top-1/2 rounded-full bg-current;
+    translate: -50% -50%;
+  }
+
+  .mobile-accordion-icon-line-horizontal {
+    width: 0.95rem;
+    height: 0.14rem;
+  }
+
+  .mobile-accordion-icon-line-vertical {
+    width: 0.14rem;
+    height: 0.95rem;
+  }
+
+  .mobile-accordion-trigger[aria-expanded="true"] .mobile-accordion-icon {
+    transform: rotate(45deg);
+  }
+
+  .mobile-accordion-panel {
+    @apply border-t border-white/8 p-4;
+  }
+
+  .mobile-accordion-copy {
+    @apply flex flex-col gap-4 pb-4;
   }
 
   .portfolio-filter-row {
@@ -356,12 +433,34 @@
     @apply relative flex max-h-[92vh] w-full max-w-5xl flex-col items-center;
   }
 
+  .portfolio-modal-hint {
+    @apply absolute left-1/2 top-4 z-[55] -translate-x-1/2 rounded-full border border-white/12 bg-black/72 px-4 py-2 text-sm font-medium text-white shadow-[0_12px_30px_rgba(0,0,0,0.32)] backdrop-blur;
+  }
+
   .portfolio-modal-shell-wide {
     max-width: min(94vw, 1400px);
   }
 
   .portfolio-modal-close {
-    @apply fixed right-5 top-5 z-[60] inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/70 text-3xl leading-none text-white transition hover:border-primary/40 hover:text-primary;
+    @apply fixed right-5 top-5 z-[60] inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white transition hover:border-primary/40 hover:text-primary;
+  }
+
+  .portfolio-modal-close-glyph {
+    @apply relative block h-5.5 w-5.5;
+  }
+
+  .portfolio-modal-close-line {
+    @apply absolute left-1/2 top-1/2 h-[0.22rem] w-5 rounded-full bg-current;
+    transform-origin: center;
+    translate: -50% -50%;
+  }
+
+  .portfolio-modal-close-line-left {
+    transform: rotate(45deg);
+  }
+
+  .portfolio-modal-close-line-right {
+    transform: rotate(-45deg);
   }
 
   .portfolio-modal-nav {
@@ -494,6 +593,89 @@
   [data-reveal].is-visible {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+  }
+
+  @media (max-width: 767px) {
+    .site-nav-shell {
+      @apply gap-0 py-3;
+    }
+
+    .site-nav-links {
+      @apply pt-3;
+    }
+
+    .hero-stage {
+      height: 50vh;
+      min-height: 50vh;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .hero-content {
+      min-height: 50vh;
+    }
+
+    .hero-frosted-image {
+      inset: 0;
+      height: auto;
+      background-size: cover;
+      background-position: center 20%;
+      opacity: 0.94;
+    }
+
+    .hero-image-fade::after {
+      height: 52%;
+      filter: blur(14px);
+      transform: translateY(0);
+    }
+
+    .hero-vignette {
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.18) 38%, rgba(0, 0, 0, 0.48) 100%),
+        radial-gradient(circle at 50% 84%, rgba(0, 0, 0, 0.42), transparent 34%);
+    }
+
+    .hero-copy-shell {
+      min-height: 50vh;
+      align-items: start;
+      align-content: center;
+      gap: 0.65rem;
+      padding-top: 4.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .hero-kicker {
+      font-size: 1rem !important;
+      line-height: 1.25rem !important;
+    }
+
+    .hero-title {
+      max-width: none;
+      font-size: clamp(2.15rem, 8vw, 3.2rem) !important;
+      line-height: 0.98 !important;
+    }
+
+    .portfolio-category {
+      min-height: 0;
+    }
+
+    .portfolio-track {
+      padding-bottom: 0.25rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .hero-copy-shell {
+      min-height: 58vh;
+      padding-top: 8rem;
+      padding-bottom: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .hero-copy-shell {
+      min-height: 66vh;
+    }
   }
 
   [data-reveal-delay="0.05"] {

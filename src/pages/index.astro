@@ -7,15 +7,18 @@ import { site, specialties } from "../data/site";
 const videoShowcase = [
   {
     title: "Corporate Campaign Video",
-    src: "/portfolio-images/Corporate%20Material/Corporate%20campaign%20video.mp4"
+    src: "/portfolio-images/Corporate%20Material/Corporate%20campaign%20video.mp4",
+    id: "corporate-campaign-video"
   },
   {
     title: "Personal Motion Study 01",
-    src: "/portfolio-images/Personal%20projects/20%20-%20Comp%201.mp4"
+    src: "/portfolio-images/Personal%20projects/20%20-%20Comp%201.mp4",
+    id: "personal-motion-study-01"
   },
   {
     title: "Personal Motion Study 02",
-    src: "/portfolio-images/Personal%20projects/21%20-%20Comp%201_1.mp4"
+    src: "/portfolio-images/Personal%20projects/21%20-%20Comp%201_1.mp4",
+    id: "personal-motion-study-02"
   }
 ];
 ---
@@ -24,8 +27,16 @@ const videoShowcase = [
   <div class="site-nav-wrap">
     <header class="site-nav" data-reveal>
       <div class="site-nav-shell">
-        <a class="site-nav-brand" href="#home">{site.name}</a>
-        <div class="site-nav-links">
+        <div class="site-nav-header">
+          <a class="site-nav-brand" href="#home">{site.name}</a>
+          <button type="button" class="site-nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="site-nav-panel">
+            <span class="site-nav-toggle-line"></span>
+            <span class="site-nav-toggle-line"></span>
+            <span class="site-nav-toggle-line"></span>
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+        </div>
+        <div class="site-nav-links" id="site-nav-panel" data-nav-panel>
           <nav>
             <ul class="menu menu-horizontal site-nav-menu">
               <li><a href="#home">Home</a></li>
@@ -49,14 +60,19 @@ const videoShowcase = [
           <div class="hero-image-fade absolute inset-0"></div>
           <div class="hero-vignette absolute inset-0"></div>
 
-          <div class="relative z-10 flex min-h-[calc(100vh-3rem)] flex-col">
-            <div class="hero-copy-shell grid min-h-[58vh] flex-1 gap-10 pb-10 pt-28 md:pt-32 lg:grid-cols-[1fr] lg:items-center xl:min-h-[66vh]">
-              <div class="space-y-5" data-reveal data-reveal-delay="0.05">
-                <p class="text-2xl font-semibold text-white/95 md:text-3xl">Hey, I'm Lerishia</p>
-                <h1 class="font-display max-w-[7ch] text-6xl font-black leading-[0.9] text-white sm:text-7xl xl:text-[7.2rem]">
-                  Digital
-                  <br />
-                  Designer
+          <div class="hero-content relative z-10 flex flex-col">
+            <div class="hero-copy-shell grid flex-1 lg:grid-cols-[1fr] lg:items-center">
+              <div class="space-y-4 md:hidden">
+                <p class="hero-kicker text-white/95">Hey, I'm Lerishia</p>
+                <h1 class="hero-title font-display text-white">
+                  Digital Designer
+                </h1>
+              </div>
+
+              <div class="hidden space-y-5 md:block">
+                <p class="hero-kicker text-2xl font-semibold text-white/95 md:text-3xl">Hey, I'm Lerishia</p>
+                <h1 class="hero-title font-display max-w-[7ch] text-6xl font-black leading-[0.9] text-white sm:text-7xl xl:text-[7.2rem]">
+                  Digital Designer
                 </h1>
               </div>
             </div>
@@ -111,7 +127,7 @@ const videoShowcase = [
             </p>
           </div>
 
-          <div class="video-grid">
+          <div class="video-grid hidden md:grid">
             {
               videoShowcase.map((video) => (
                 <article class="video-card glass-panel" data-reveal>
@@ -127,7 +143,7 @@ const videoShowcase = [
             }
           </div>
 
-          <div class="video-embed-card glass-panel" data-reveal data-reveal-delay="0.12">
+          <div class="video-embed-card glass-panel hidden md:block" data-reveal data-reveal-delay="0.12">
             <div class="video-embed-shell">
               <iframe
                 width="560"
@@ -140,6 +156,68 @@ const videoShowcase = [
                 allowfullscreen
               ></iframe>
             </div>
+          </div>
+
+          <div class="mobile-video-accordion md:hidden">
+            {
+              videoShowcase.map((video, index) => (
+                <article class="mobile-accordion-item glass-panel">
+                  <button
+                    type="button"
+                    class="mobile-accordion-trigger"
+                    data-mobile-video-trigger
+                    data-mobile-video-target={video.id}
+                    aria-expanded={index === 0 ? "true" : "false"}
+                  >
+                    <span>{video.title}</span>
+                    <span class="mobile-accordion-icon" aria-hidden="true">
+                      <span class="mobile-accordion-icon-line mobile-accordion-icon-line-horizontal"></span>
+                      <span class="mobile-accordion-icon-line mobile-accordion-icon-line-vertical"></span>
+                    </span>
+                  </button>
+                  <div
+                    class={`${index === 0 ? "" : "hidden "}mobile-accordion-panel`}
+                    data-mobile-video-panel
+                    data-mobile-video-id={video.id}
+                  >
+                    <video class="video-frame" controls preload="metadata">
+                      <source src={video.src} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </article>
+              ))
+            }
+
+            <article class="mobile-accordion-item glass-panel">
+              <button
+                type="button"
+                class="mobile-accordion-trigger"
+                data-mobile-video-trigger
+                data-mobile-video-target="youtube-highlight"
+                aria-expanded="false"
+              >
+                <span>YouTube Highlight</span>
+                <span class="mobile-accordion-icon" aria-hidden="true">
+                  <span class="mobile-accordion-icon-line mobile-accordion-icon-line-horizontal"></span>
+                  <span class="mobile-accordion-icon-line mobile-accordion-icon-line-vertical"></span>
+                </span>
+              </button>
+              <div class="mobile-accordion-panel hidden" data-mobile-video-panel data-mobile-video-id="youtube-highlight">
+                <div class="video-embed-shell">
+                  <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/8YYJyQY_tbE?si=wZDjMu0bOoPIjMrS"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -204,4 +282,64 @@ const videoShowcase = [
         </div>
       </section>
   </main>
+
+  <script is:inline>
+    const initializeMobileNavigation = () => {
+      if (document.body.dataset.mobileNavInitialized === "true") return;
+      document.body.dataset.mobileNavInitialized = "true";
+
+      const toggle = document.querySelector("[data-nav-toggle]");
+      const panel = document.querySelector("[data-nav-panel]");
+      if (!(toggle instanceof HTMLButtonElement) || !(panel instanceof HTMLElement)) return;
+
+      const setOpen = (isOpen) => {
+        toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        panel.classList.toggle("site-nav-links-open", isOpen);
+      };
+
+      toggle.addEventListener("click", () => {
+        const isOpen = toggle.getAttribute("aria-expanded") === "true";
+        setOpen(!isOpen);
+      });
+
+      panel.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => setOpen(false));
+      });
+    };
+
+    const initializeMobileVideoAccordions = () => {
+      if (document.body.dataset.mobileVideosInitialized === "true") return;
+      document.body.dataset.mobileVideosInitialized = "true";
+
+      const triggers = Array.from(document.querySelectorAll("[data-mobile-video-trigger]"));
+      const panels = Array.from(document.querySelectorAll("[data-mobile-video-panel]"));
+
+      const setActivePanel = (targetId) => {
+        triggers.forEach((trigger) => {
+          if (!(trigger instanceof HTMLButtonElement)) return;
+          const isActive = trigger.dataset.mobileVideoTarget === targetId;
+          trigger.setAttribute("aria-expanded", isActive ? "true" : "false");
+          trigger.dataset.active = isActive ? "true" : "false";
+        });
+
+        panels.forEach((panel) => {
+          if (!(panel instanceof HTMLElement)) return;
+          const isActive = panel.dataset.mobileVideoId === targetId;
+          panel.classList.toggle("hidden", !isActive);
+        });
+      };
+
+      triggers.forEach((trigger) => {
+        if (!(trigger instanceof HTMLButtonElement)) return;
+        trigger.addEventListener("click", () => {
+          const targetId = trigger.dataset.mobileVideoTarget || "";
+          const isActive = trigger.getAttribute("aria-expanded") === "true";
+          setActivePanel(isActive ? "" : targetId);
+        });
+      });
+    };
+
+    initializeMobileNavigation();
+    initializeMobileVideoAccordions();
+  </script>
 </MainLayout>

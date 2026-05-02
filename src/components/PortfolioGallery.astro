@@ -21,7 +21,7 @@ const { sections } = Astro.props;
       </p>
     </div>
 
-    <div class="portfolio-tab-shell">
+    <div class="portfolio-tab-shell hidden md:block">
       <div class="portfolio-filter-row" role="tablist" aria-label="Portfolio categories">
         {
           sections.map((section, index) => (
@@ -41,7 +41,7 @@ const { sections } = Astro.props;
     </div>
   </div>
 
-  <div class="portfolio-panel-stack space-y-8">
+  <div class="portfolio-panel-stack hidden space-y-8 md:block">
     {
       sections.map((section, index) => (
         <article
@@ -95,13 +95,76 @@ const { sections } = Astro.props;
       ))
     }
   </div>
+
+  <div class="mobile-portfolio-accordion space-y-4 md:hidden">
+    {
+      sections.map((section, index) => (
+        <article class="mobile-accordion-item glass-panel">
+          <button
+            type="button"
+            class="mobile-accordion-trigger"
+            data-mobile-category-trigger
+            data-mobile-category-target={section.id}
+            aria-expanded={index === 0 ? "true" : "false"}
+          >
+            <span>{section.label}</span>
+            <span class="mobile-accordion-icon" aria-hidden="true">
+              <span class="mobile-accordion-icon-line mobile-accordion-icon-line-horizontal"></span>
+              <span class="mobile-accordion-icon-line mobile-accordion-icon-line-vertical"></span>
+            </span>
+          </button>
+          <div
+            class={`${index === 0 ? "" : "hidden "}mobile-accordion-panel`}
+            data-mobile-category-panel
+            data-mobile-category-id={section.id}
+          >
+            <div class="mobile-accordion-copy">
+              <p class="eyebrow portfolio-feature-kicker">Selected Category</p>
+              <div class="portfolio-feature-title-row">
+                <h3 class="font-display text-3xl font-black uppercase text-white">{section.label}</h3>
+                <span class="count-badge">{section.count} pieces</span>
+              </div>
+              <p class="portfolio-feature-description">{section.description}</p>
+            </div>
+
+            <div class="portfolio-carousel" data-carousel>
+              <div class="portfolio-track" data-carousel-track>
+                {
+                  section.items.map((item) => (
+                    <button
+                      type="button"
+                      class="portfolio-card group"
+                      data-zoom-image
+                      data-image-src={item.src}
+                      data-image-title={section.label}
+                      data-image-alt={item.alt}
+                    >
+                      <span class="portfolio-card-media">
+                        <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
+                      </span>
+                    </button>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
 </section>
 
 <div class="portfolio-modal hidden" data-portfolio-modal>
   <button type="button" class="portfolio-modal-nav portfolio-modal-nav-left" data-modal-prev aria-label="Show previous image">←</button>
   <button type="button" class="portfolio-modal-nav portfolio-modal-nav-right" data-modal-next aria-label="Show next image">→</button>
-  <button type="button" class="portfolio-modal-close" data-close-modal aria-label="Close enlarged image">×</button>
+  <button type="button" class="portfolio-modal-close" data-close-modal aria-label="Close enlarged image">
+    <span class="portfolio-modal-close-glyph" aria-hidden="true">
+      <span class="portfolio-modal-close-line portfolio-modal-close-line-left"></span>
+      <span class="portfolio-modal-close-line portfolio-modal-close-line-right"></span>
+    </span>
+  </button>
   <div class="portfolio-modal-shell" data-modal-shell>
+    <p class="portfolio-modal-hint hidden" data-modal-scroll-hint>Scroll down to view more</p>
     <div class="portfolio-modal-media" data-modal-media>
       <img class="portfolio-modal-image" src="" alt="" data-modal-image />
     </div>
@@ -115,6 +178,8 @@ const { sections } = Astro.props;
 
     const categoryTabs = Array.from(document.querySelectorAll("[data-category-tab]"));
     const categoryPanels = Array.from(document.querySelectorAll("[data-category-panel]"));
+    const mobileCategoryTriggers = Array.from(document.querySelectorAll("[data-mobile-category-trigger]"));
+    const mobileCategoryPanels = Array.from(document.querySelectorAll("[data-mobile-category-panel]"));
 
     const setActiveCategory = (targetId) => {
       categoryTabs.forEach((tab) => {
@@ -140,6 +205,30 @@ const { sections } = Astro.props;
       if (!(tab instanceof HTMLButtonElement)) return;
       tab.dataset.active = tab.getAttribute("aria-selected") === "true" ? "true" : "false";
       tab.addEventListener("click", () => setActiveCategory(tab.dataset.categoryTarget || ""));
+    });
+
+    const setMobileCategory = (targetId) => {
+      mobileCategoryTriggers.forEach((trigger) => {
+        if (!(trigger instanceof HTMLButtonElement)) return;
+        const isActive = trigger.dataset.mobileCategoryTarget === targetId;
+        trigger.setAttribute("aria-expanded", isActive ? "true" : "false");
+        trigger.dataset.active = isActive ? "true" : "false";
+      });
+
+      mobileCategoryPanels.forEach((panel) => {
+        if (!(panel instanceof HTMLElement)) return;
+        const isActive = panel.dataset.mobileCategoryId === targetId;
+        panel.classList.toggle("hidden", !isActive);
+      });
+    };
+
+    mobileCategoryTriggers.forEach((trigger) => {
+      if (!(trigger instanceof HTMLButtonElement)) return;
+      trigger.addEventListener("click", () => {
+        const targetId = trigger.dataset.mobileCategoryTarget || "";
+        const isActive = trigger.getAttribute("aria-expanded") === "true";
+        setMobileCategory(isActive ? "" : targetId);
+      });
     });
 
     const carousels = document.querySelectorAll("[data-carousel]");
@@ -183,6 +272,7 @@ const { sections } = Astro.props;
     const modalShell = modal?.querySelector("[data-modal-shell]");
     const modalMedia = modal?.querySelector("[data-modal-media]");
     const modalImage = modal?.querySelector("[data-modal-image]");
+    const modalScrollHint = modal?.querySelector("[data-modal-scroll-hint]");
     const modalPreviousButton = modal?.querySelector("[data-modal-prev]");
     const modalNextButton = modal?.querySelector("[data-modal-next]");
     let activeItems = [];
@@ -213,6 +303,7 @@ const { sections } = Astro.props;
       if (!modal || !modalImage) return;
       modal.classList.add("hidden");
       modalShell?.classList.remove("portfolio-modal-shell-wide");
+      modalScrollHint?.classList.add("hidden");
       modalImage.setAttribute("src", "");
       modalImage.setAttribute("alt", "");
       activeItems = [];
@@ -235,14 +326,19 @@ const { sections } = Astro.props;
       const zoomButton = target.closest("[data-zoom-image]");
       if (zoomButton instanceof HTMLElement) {
         if (!modal || !modalImage) return;
-        const category = zoomButton.closest(".portfolio-category");
-        const isWideGallery = category instanceof HTMLElement && category.dataset.categoryId === "website-design";
+        const category =
+          zoomButton.closest(".portfolio-category") || zoomButton.closest("[data-mobile-category-panel]");
+        const isWideGallery =
+          category instanceof HTMLElement &&
+          (category.dataset.categoryId === "website-design" || category.dataset.mobileCategoryId === "website-design");
         activeItems = Array.from(category?.querySelectorAll("[data-zoom-image]") || []);
         activeIndex = activeItems.indexOf(zoomButton);
         if (isWideGallery) {
           modalShell?.classList.add("portfolio-modal-shell-wide");
+          modalScrollHint?.classList.remove("hidden");
         } else {
           modalShell?.classList.remove("portfolio-modal-shell-wide");
+          modalScrollHint?.classList.add("hidden");
         }
         renderModalItem();
         modal.classList.remove("hidden");
