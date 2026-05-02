@@ -119,15 +119,15 @@
   }
 
   .site-nav-menu {
-    @apply flex-wrap gap-1 rounded-full bg-white/8 p-1 text-base text-white/82;
+    @apply flex-wrap items-center gap-1 rounded-full bg-white/8 p-1 text-sm text-white/82;
   }
 
   .site-nav-menu li a {
-    @apply rounded-full px-4 py-2 transition hover:bg-white/10 hover:text-white;
+    @apply inline-flex items-center rounded-full px-4 py-[0.7rem] leading-none transition hover:bg-white/10 hover:text-white;
   }
 
   .site-nav-cta {
-    @apply rounded-full border border-white/30 bg-white px-5 text-base !text-black shadow-none hover:bg-white/90 hover:!text-black;
+    @apply inline-flex items-center self-start rounded-full border border-white/30 bg-white px-5 py-[0.7rem] text-sm leading-none !text-black shadow-none transition hover:bg-white/90 hover:!text-black md:self-auto;
   }
 
   .about-panel {
