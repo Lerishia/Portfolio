@@ -1,7 +1,7 @@
 import { readdirSync, statSync } from "node:fs";
 import { basename, extname, join } from "node:path";
 
-const imageRoot = join(process.cwd(), "public", "Image");
+const imageRoot = join(process.cwd(), "Image");
 
 const categoryMeta = {
   "Marketing Material": {
@@ -91,7 +91,7 @@ const portfolioItems: PortfolioItem[] = getFiles(imageRoot)
     return {
       categoryKey,
       relativePath,
-      src: `/Image/${encodePath(relativePath)}`,
+      src: `/portfolio-images/${encodePath(relativePath)}`,
       title: titleFromFile(fileName),
       alt: `${titleFromFile(fileName)} by Lerishia Naidoo`
     };

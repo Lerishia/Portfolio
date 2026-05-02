@@ -9,7 +9,7 @@ export const site = {
   email: "lerishianaidoo2@gmail.com",
   phone: "+27 84 985 7836",
   profileUrl: "https://bit.ly/38VH3fa",
-  profileImage: "/Image/Hero-image.jpg"
+  profileImage: "/portfolio-images/Hero-image.jpg"
 };
 
 export const specialties = [

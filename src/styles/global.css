@@ -149,12 +149,14 @@
   }
 
   .contact-service-grid {
-    @apply flex-1 content-stretch gap-4 pt-8 md:grid md:grid-cols-2;
+    @apply grid flex-1 content-stretch gap-4 pt-8 md:grid-cols-2;
+    grid-template-columns: minmax(0, 1fr);
     grid-auto-rows: minmax(0, 1fr);
   }
 
   .contact-service-card {
     @apply flex h-full flex-col justify-start rounded-[1.75rem] border border-primary/14 bg-white/5 p-5 shadow-[0_16px_40px_rgba(0,0,0,0.2)] backdrop-blur;
+    min-height: 100%;
   }
 
   .hero-copy-shell {
@@ -174,7 +176,9 @@
   }
 
   .category-pill {
-    @apply relative z-0 inline-flex items-center gap-3 rounded-t-[1.15rem] rounded-b-none border border-white/10 bg-white/4 px-5 py-3 text-base font-medium text-white/78 transition hover:border-primary/40 hover:bg-white/8 hover:text-white;
+    @apply relative z-0 inline-flex min-h-[4.25rem] items-center justify-center rounded-t-[1.15rem] rounded-b-none border border-white/10 bg-white/4 px-5 py-3 text-center text-base font-medium text-white/78 transition hover:border-primary/40 hover:bg-white/8 hover:text-white;
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
 
   .category-pill[data-active="true"] {
@@ -183,10 +187,6 @@
     box-shadow:
       0 0 0 2px rgba(77, 182, 255, 0.85),
       0 -10px 24px rgba(77, 182, 255, 0.16);
-  }
-
-  .category-pill[data-active="true"] .category-pill-count {
-    @apply bg-black/15 text-primary-content;
   }
 
   .portfolio-tab-shell {
@@ -222,10 +222,6 @@
       0 0 0 2px rgba(77, 182, 255, 0.55),
       0 24px 70px rgba(0, 0, 0, 0.28),
       0 0 28px rgba(77, 182, 255, 0.16);
-  }
-
-  .category-pill-count {
-    @apply rounded-full bg-white/10 px-2 py-1 text-base text-white/70;
   }
 
   .count-badge {
