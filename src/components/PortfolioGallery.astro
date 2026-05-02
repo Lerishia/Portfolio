@@ -15,9 +15,12 @@ const { sections } = Astro.props;
       <h2 class="font-display max-w-none text-5xl font-black uppercase leading-[0.95] text-white sm:text-6xl">
         All My Work, Organised By Category
       </h2>
-      <p class="mt-5 max-w-none text-base leading-8 text-white/68">
+      <p class="mt-5 hidden max-w-none text-base leading-8 text-white/68 md:block">
         Browse every piece by category without stretching the page into one long wall of images. Each collection
         scrolls sideways, and every image opens into a focused full-screen preview.
+      </p>
+      <p class="mt-5 max-w-none text-base leading-8 text-white/68 md:hidden">
+        Browse the portfolio by category and open any image for a closer look.
       </p>
     </div>
 
