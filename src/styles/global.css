@@ -127,7 +127,7 @@
   }
 
   .site-nav-cta {
-    @apply rounded-full border border-white/30 bg-white px-5 text-base text-black shadow-none hover:bg-white/90;
+    @apply rounded-full border border-white/30 bg-white px-5 text-base !text-black shadow-none hover:bg-white/90 hover:!text-black;
   }
 
   .about-panel {
